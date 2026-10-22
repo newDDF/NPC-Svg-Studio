@@ -1,0 +1,38 @@
+@import "tailwindcss";
+
+html, body, #root {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* 主题 CSS 变量定义 */
+:root[data-theme="dark"] {
+  --bg-primary: #090d16;
+  --bg-panel: #0d1322;
+  --bg-subtle: #131b2e;
+  --border-color: rgba(255, 255, 255, 0.08);
+  --text-main: #f1f5f9;
+  --text-muted: #94a3b8;
+}
+
+:root[data-theme="light"] {
+  --bg-primary: #f8fafc;
+  --bg-panel: #ffffff;
+  --bg-subtle: #f1f5f9;
+  --border-color: rgba(0, 0, 0, 0.08);
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+}
+
+:root[data-theme="oled"] {
+  --bg-primary: #000000;
+  --bg-panel: #050505;
+  --bg-subtle: #121212;
+  --border-color: rgba(255, 255, 255, 0.12);
+  --text-main: #ffffff;
+  --text-muted: #888888;
+}

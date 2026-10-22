@@ -1,0 +1,82 @@
+/**
+ * Advanced SVG Processing Engine for NPC-Svg-Studio
+ */
+
+export function extractColors(svgString) {
+  if (!svgString) return [];
+  const colorSet = new Set();
+  const colorPattern = /(#[0-9a-fA-F]{3,8}|rgba?\([^)]+\)|hsla?\([^)]+\))/gi;
+  const matches = svgString.match(colorPattern) || [];
+
+  matches.forEach((col) => {
+    const cleanCol = col.trim().toLowerCase();
+    if (cleanCol && cleanCol !== 'none' && !cleanCol.startsWith('url(')) {
+      colorSet.add(cleanCol);
+    }
+  });
+
+  return Array.from(colorSet);
+}
+
+export function replaceColor(svgString, targetColor, newColor) {
+  if (!svgString || !targetColor || !newColor) return svgString;
+  const escapedTarget = targetColor.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+  const regex = new RegExp(escapedTarget, 'gi');
+  return svgString.replace(regex, newColor);
+}
+
+export function optimizeSvgWithOptions(svgString, options = {}) {
+  if (!svgString) return '';
+  let clean = svgString;
+
+  if (options.removeComments !== false) {
+    clean = clean.replace(/<!--[\s\S]*?-->/g, '');
+  }
+  if (options.removeMetadata !== false) {
+    clean = clean.replace(/<metadata[\s\S]*?<\/metadata>/gi, '');
+    clean = clean.replace(/<\?xml.*?\?>/g, '');
+    clean = clean.replace(/<!DOCTYPE.*?>/gi, '');
+  }
+  if (options.removeEditorData !== false) {
+    clean = clean.replace(/\s(xmlns:sketch|sketch:type|i:extraneous|xmlns:serif|serif:id|data-name)="[^"]*"/gi, '');
+  }
+  if (options.removeEmptyAttrs !== false) {
+    clean = clean.replace(/\s[a-z-]+=""/gi, '');
+  }
+  if (options.collapseWhitespace !== false) {
+    clean = clean.replace(/>\s+</g, '><').replace(/\s+/g, ' ');
+  }
+
+  return clean.trim();
+}
+
+export function convertToReactComponent(svgString, componentName = 'IconSvg') {
+  if (!svgString) return '';
+  let jsx = svgString
+    .replace(/class=/g, 'className=')
+    .replace(/stroke-width=/g, 'strokeWidth=')
+    .replace(/stroke-linecap=/g, 'strokeLinecap=')
+    .replace(/stroke-linejoin=/g, 'strokeLinejoin=')
+    .replace(/fill-rule=/g, 'fillRule=')
+    .replace(/clip-rule=/g, 'clipRule=');
+
+  return `import React, { forwardRef } from 'react';\n\nexport const ${componentName} = forwardRef((props, ref) => (\n  ${jsx.replace('<svg ', '<svg ref={ref} {...props} ')}\n));`;
+}
+
+export function convertToVueComponent(svgString, componentName = 'IconSvg') {
+  if (!svgString) return '';
+  return `<template>\n  ${svgString}\n</template>\n\n<script setup>\n// ${componentName} Vue 3 Component\n</script>`;
+}
+
+export function convertToSvelteComponent(svgString) {
+  if (!svgString) return '';
+  return `<script>\n  export let customClass = '';\n</script>\n\n${svgString}`;
+}
+
+export function convertToCssDataUri(svgString) {
+  if (!svgString) return '';
+  const encoded = encodeURIComponent(optimizeSvgWithOptions(svgString))
+    .replace(/'/g, '%27')
+    .replace(/"/g, '%22');
+  return `background-image: url("data:image/svg+xml;utf8,${encoded}");`;
+}
