@@ -225,7 +225,7 @@ export default function App() {
   const isLight = theme === 'light';
 
   return (
-    <div className={`h-screen w-screen flex flex-col font-sans select-none overflow-hidden transition-colors duration-200 ${
+    <div className={`min-h-screen h-auto w-full min-w-0 xl:h-screen flex flex-col font-sans select-none overflow-x-hidden xl:overflow-hidden transition-colors duration-200 ${
       isLight ? 'bg-slate-100 text-slate-800' : theme === 'oled' ? 'bg-black text-white' : 'bg-[#060911] text-slate-100'
     }`}>
       
@@ -236,7 +236,7 @@ export default function App() {
       )}
 
       {/* Header */}
-      <header className={`h-16 px-6 flex items-center justify-between shrink-0 z-40 border-b transition-colors duration-200 ${
+      <header className={`min-h-16 h-auto px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-x-4 gap-y-3 shrink-0 z-40 border-b transition-colors duration-200 ${
         isLight ? 'bg-white border-slate-200 shadow-xs' : theme === 'oled' ? 'bg-[#050505] border-neutral-800' : 'bg-[#0b0e17]/90 border-slate-800/80'
       }`}>
         <div className="flex items-center space-x-3">
@@ -255,7 +255,7 @@ export default function App() {
         </div>
 
         <div className="flex items-center space-x-6">
-          <div className={`hidden md:flex items-center space-x-2 px-3 py-1.5 rounded-xl border ${
+          <div className={`hidden xl:flex items-center space-x-2 px-3 py-1.5 rounded-xl border ${
             isLight ? 'bg-slate-50 border-slate-200' : 'bg-slate-900 border-slate-800'
           }`}>
             <span className="text-[11px] opacity-60 mr-1">Preset:</span>
@@ -321,9 +321,9 @@ export default function App() {
       </header>
 
       {/* Main Workspace */}
-      <div className="flex-1 flex overflow-hidden p-6 gap-6">
+      <div className="flex-1 min-h-0 min-w-0 flex flex-col min-[800px]:flex-row overflow-visible min-[800px]:overflow-hidden p-4 sm:p-6 gap-4 sm:gap-6">
         
-        <div className={`flex-1 flex flex-col rounded-2xl border shadow-xs overflow-hidden relative transition-colors duration-200 ${
+        <div className={`w-full min-[800px]:flex-1 min-w-0 min-h-[420px] min-[800px]:min-h-0 flex flex-col rounded-2xl border shadow-xs overflow-hidden relative transition-colors duration-200 ${
           isLight ? 'bg-white border-slate-200' : theme === 'oled' ? 'bg-[#050505] border-neutral-800' : 'bg-[#0a0f1d]/60 border-slate-800/80'
         }`}>
           <div className={`h-12 px-6 flex items-center justify-between border-b text-xs font-mono shrink-0 ${
@@ -349,7 +349,7 @@ export default function App() {
             )}
           </div>
 
-          <div className={`flex-1 flex items-center justify-center p-8 overflow-auto relative ${
+          <div className={`flex-1 min-h-0 min-w-0 flex items-center justify-center p-4 sm:p-8 overflow-auto relative ${
             isLight ? 'bg-slate-50/50 [background-image:radial-gradient(#cbd5e1_1px,transparent_1px)] [background-size:20px_20px]' : 'bg-[radial-gradient(#1e293b_1px,transparent_1px)] bg-[size:20px_20px]'
           }`}>
             {viewMode === 'canvas' ? (
@@ -387,7 +387,7 @@ export default function App() {
         </div>
 
         {/* Right Panel */}
-        <div className={`w-96 flex flex-col rounded-2xl border shadow-xs overflow-hidden shrink-0 transition-colors duration-200 ${
+        <div className={`w-full min-[800px]:w-96 min-w-0 min-h-[520px] min-[800px]:min-h-0 flex flex-col rounded-2xl border shadow-xs overflow-hidden shrink-0 transition-colors duration-200 ${
           isLight ? 'bg-white border-slate-200' : theme === 'oled' ? 'bg-[#050505] border-neutral-800' : 'bg-[#0a0f1d]/80 border-slate-800/80'
         }`}>
           
@@ -416,7 +416,7 @@ export default function App() {
             })}
           </div>
 
-          <div className="flex-1 p-5 overflow-y-auto space-y-6">
+          <div className="flex-1 min-h-0 p-5 overflow-y-auto space-y-6">
             
             {activeTab === 'styles' && (
               <div className="space-y-6">
